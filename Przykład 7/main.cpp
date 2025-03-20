@@ -3,9 +3,8 @@
 #include <stdio.h>
 using namespace std;
 int main(int argc, char *argv[])
-{ 
-
-printf("Skomplikowany napis:\n"); 
+{
+	printf("Skomplikowany napis:\n"); 
  printf("Iloraz 135 %c 5 %8s %d", ':', "wynosi ", 27); 
  printf("\n");
  system("PAUSE");
@@ -17,4 +16,3 @@ printf("Skomplikowany napis:\n");
  system("PAUSE");
  return EXIT_SUCCESS;
 }
-
