@@ -1,100 +1,106 @@
-#include <iostream>     // standardowa biblioteka wej≈õcia i wyj≈õcia
-#include <windows.h>    // do funkcji Sleep() i gotoxy()
-#include <conio.h>      // do sygna≈Çu d≈∫wiƒôkowego
-#include <cmath>        // do oblicze≈Ñ matematycznych
-#include <vector>       // do przechowywania danych
-#include <string>       // do przechowywania nazw samochod√≥w
+#include <iostream>
+#include <cstdlib>
+#include <windows.h>
+#include <stdio.h>
+#include <dos.h>
 
-using namespace std;
-
-// Funkcja do przesuwania kursora na ekranie
-void gotoxy(int x, int y) {
-    COORD coord;
-    coord.X = x;
-    coord.Y = y;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+float metry(float kilometry)
+{
+	return (kilometry*1000)/60;	
 }
 
-// Funkcja sygna≈Çu d≈∫wiƒôkowego
-void beepSound() {
-    cout << "\a"; // Standardowy sygna≈Ç d≈∫wiƒôkowy
-    Sleep(200);
+float sekundy(float kilometry)
+{
+	return (kilometry*1000)/3600;
 }
 
-// Funkcja do przeliczania prƒôdko≈õci
-void przeliczPredkosc(float kmh, float &ms, float &mmin) {
-    ms = kmh / 3.6;      // Przeliczenie na m/s
-    mmin = ms * 60;      // Przeliczenie na m/min
+void gotoxy(int x, int y)  
+{  
+   COORD coord;  
+   coord.X = x;  
+   coord.Y = y;  
+   SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);  
 }
 
-int main() {
-    const int MAX_PREDKOSC = 280; // Maksymalna prƒôdko≈õƒá samochodu
-    vector<string> markiSamochodow;   // Przechowywanie marek samochod√≥w
-    vector<float> predkosciKmh;       // Przechowywanie prƒôdko≈õci w km/h
-    vector<float> predkosciMs;        // Prƒôdko≈õci w m/s
-    vector<float> predkosciMmin;      // Prƒôdko≈õci w m/min
 
-    int liczbaSamochodow;
-    cout << "Podaj liczbe samochodow: ";
-    cin >> liczbaSamochodow;
-
-    // Wprowadzanie danych
-    for (int i = 0; i < liczbaSamochodow; ++i) {
-        string marka;
-        float predkoscKmh;
-
-        cout << "\nPodaj marke samochodu: ";
-        cin >> marka;
-        beepSound(); // Sygna≈Ç d≈∫wiƒôkowy dla nazwy samochodu
-
-        do {
-            cout << "Podaj predkosc samochodu w km/h (maksymalnie " << MAX_PREDKOSC << " km/h): ";
-            cin >> predkoscKmh;
-
-            if (predkoscKmh > MAX_PREDKOSC) {
-                cout << "Przekroczono maksymalna predkosc! Sprobuj ponownie.\n";
-            }
-        } while (predkoscKmh > MAX_PREDKOSC);
-
-        float predkoscMs, predkoscMmin;
-        przeliczPredkosc(predkoscKmh, predkoscMs, predkoscMmin);
-
-        markiSamochodow.push_back(marka);
-        predkosciKmh.push_back(predkoscKmh);
-        predkosciMs.push_back(predkoscMs);
-        predkosciMmin.push_back(predkoscMmin);
-    }
-
-    // Wy≈õwietlanie wynik√≥w
-    system("cls");
-    cout << "PRZELICZONE PREDKOSCI SAMOCHODOW\n";
-    cout << "------------------------------------\n";
-    cout << "Marka \t Predkosc (km/h) \t m/s \t m/min\n";
-    for (size_t i = 0; i < markiSamochodow.size(); ++i) {
-        cout << markiSamochodow[i] << "\t\t" << predkosciKmh[i] << "\t\t" 
-             << round(predkosciMs[i] * 100) / 100 << "\t" 
-             << round(predkosciMmin[i] * 100) / 100 << endl;
-        beepSound();
-        Sleep(500); // Spowolnienie wy≈õwietlania
-    }
-
-    // Wykres prƒôdko≈õci
-    cout << "\nWYKRES PREDKOSCI SAMOCHODOW (w m/s):\n";
-    gotoxy(0, 14);
-    cout << "O≈õ OX: Prƒôdko≈õƒá w m/s (1 jednostka = 2 m/s)\n";
-
-    for (size_t i = 0; i < markiSamochodow.size(); ++i) {
-        cout << "\n" << markiSamochodow[i] << " | ";
-        int dlugoscWykresu = round(predkosciMs[i] / 2); // Skala: 1 jednostka = 2 m/s
-        for (int j = 0; j < dlugoscWykresu; ++j) {
-            cout << "#";
-        }
-        cout << " (" << predkosciMs[i] << " m/s)";
-        Sleep(300); // Spowolnienie rysowania wykresu
-    }
-
-    cout << "\n\nKoniec programu. Nacisnij dowolny klawisz, aby zakonczyc...";
-    _getch(); // Czekanie na klawisz
-
-    return 0;
+int main(int argc, char** argv)
+ {
+	system("chcp 1250");
+	system("cls");
+	char marka1[20];
+	char marka2[20];
+	char marka3[20];
+	float maxpredkosc1;
+	float maxpredkosc2;
+	float maxpredkosc3;
+ 	
+	
+	printf("PrÍdkoúÊ maks ogranicz do 280km/h\n");
+	printf("Podaj markÍ samochodu:");
+	scanf("%s",&marka1);
+	printf("Podaj maksymalnπ prÍdkoúÊ samochodu w km/h:");
+	scanf("%f",&maxpredkosc1);
+	printf("Podaj markÍ samochdu:");
+	scanf("%s",&marka2);
+	printf("Podaj maksymalnπ prÍdkoúÊ samochodu w km/h:");
+	scanf("%f",&maxpredkosc2);
+	printf("Podaj markÍ samochodu:");
+	scanf("%s",&marka3);
+	printf("Podaj maksymalnπ prÍdkoúÊ samochodu w km/h:");
+	scanf("%f",&maxpredkosc3);
+	
+	printf("\nMaksymalna prÍdkoúÊ %s = %.0f m/min	lub %.0f m/s",&marka1, metry(maxpredkosc1), sekundy(maxpredkosc1));
+	printf("\nMaksymalna prÍdkoúÊ %s = %.0f m/min	lub %.0f m/s",&marka2, metry(maxpredkosc2), sekundy(maxpredkosc2));
+	printf("\nMaksymalna prÍdkoúÊ %s = %.0f m/min	lub %.0f m/s\n",&marka3, metry(maxpredkosc3), sekundy(maxpredkosc3));
+	printf("\n");
+	
+	
+	for( int i = 1; i <= 7; i++ )
+{
+	printf("*\n");    
 }
+
+	for( int i = 1; i <= 77; i++ )
+{
+	printf("*");    
+}
+printf("\n");
+printf("    5    10   15   20   25   30   35   40   45   50   55   60   65   70   75");
+	
+	
+if(maxpredkosc3<=280){	
+	Sleep(1000);
+	Beep(1396, 200);	
+gotoxy(sekundy(maxpredkosc3)+1, 14);	
+  SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12| 
+FOREGROUND_INTENSITY);
+printf("* %s",&marka3);		
+}
+
+if(maxpredkosc2<=280){
+	Sleep(1000);
+	Beep(1174, 1000);		
+gotoxy(sekundy(maxpredkosc2)+1, 16);	
+  SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 6| 
+FOREGROUND_INTENSITY);
+printf("* %s",&marka2);
+}
+
+if(maxpredkosc1<280){
+	Sleep(1000);
+    Beep(1244, 1000);	
+gotoxy(sekundy(maxpredkosc1)+1, 18);	
+  SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10| 
+FOREGROUND_INTENSITY);
+printf("* %s",&marka1);
+}	
+
+  SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15| 
+FOREGROUND_INTENSITY);
+
+gotoxy(0,27);
+     
+    system("PAUSE"); 
+    return EXIT_SUCCESS;
+}
+
